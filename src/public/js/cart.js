@@ -1,7 +1,19 @@
 window.onload = function () {
   // Variables
-  const dataCart = JSON.parse(localStorage.getItem("product-value")) || [];
+  let dataCart = JSON.parse(localStorage.getItem("product-value")) || [];
 
+  //obtain data contentcar
+  let contentCartSelected = JSON.parse(localStorage.getItem("cart")) || [];
+
+  //prevent repeat information when page load
+  if (contentCartSelected.length === 0) {
+    dataCart.map((element) => {
+      //type of string element.id require for math with other data
+      contentCartSelected.unshift(String(element.id));
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(contentCartSelected));
   const $items = document.querySelector("#items");
   let cart = [];
   let total = 0;
@@ -15,34 +27,49 @@ window.onload = function () {
     for (let info of dataCart) {
       // structure
       let myNode = document.createElement("div");
-      myNode.classList.add("card", "col-sm-4");
-      // Body
-      let myNodeCardBody = document.createElement("div");
-      myNodeCardBody.classList.add("card-body");
-      // title
-      let myNodeTitle = document.createElement("h5");
-      myNodeTitle.classList.add("card-title");
-      myNodeTitle.textContent = info["name"];
+      myNode.classList.add("curso");
       // Image
       let myNodeImage = document.createElement("img");
-      myNodeImage.classList.add("img-fluid");
+      myNodeImage.classList.add("imagen-curso");
       myNodeImage.setAttribute("src", info["url_image"]);
+      // info-curso
+      let myNodeInfoCurso = document.createElement("div");
+      myNodeInfoCurso.classList.add("info-curso");
+      // title
+      let myNodeTitle = document.createElement("h4");
+      myNodeTitle.textContent = info["name"];
+
       // Price
-      let myNodePrice = document.createElement("p");
-      myNodePrice.classList.add("card-text");
-      myNodePrice.textContent = info["price"] + "€";
-      // button
+      let myNodePrice = document.createElement("div");
+      myNodePrice.classList.add("precio");
+      //paragraph regular
+      let myNodeParagraphRegular = document.createElement("p");
+      myNodeParagraphRegular.classList.add("regular");
+      myNodeParagraphRegular.textContent = "$" + info["price"];
+
+      //paragraph offert
+      let myNodeParagraphOffert = document.createElement("p");
+      myNodeParagraphOffert.classList.add("oferta");
+      myNodeParagraphOffert.textContent = `$${
+        info["price"] - (info["discount"] * info["price"]) / 100
+      }`;
+
+      // button plus (+)
       let myNodeButton = document.createElement("button");
-      myNodeButton.classList.add("btn", "btn-primary");
+      myNodeButton.classList.add("button-cart", "plus-button");
       myNodeButton.textContent = "+";
       myNodeButton.setAttribute("marker", info["id"]);
       myNodeButton.addEventListener("click", addCart);
+
       // insert
-      myNodeCardBody.appendChild(myNodeImage);
-      myNodeCardBody.appendChild(myNodeTitle);
-      myNodeCardBody.appendChild(myNodePrice);
-      myNodeCardBody.appendChild(myNodeButton);
-      myNode.appendChild(myNodeCardBody);
+      myNodePrice.appendChild(myNodeParagraphRegular);
+      myNodePrice.appendChild(myNodeParagraphOffert);
+
+      myNode.appendChild(myNodeImage);
+      myNodeInfoCurso.appendChild(myNodeTitle);
+      myNodeInfoCurso.appendChild(myNodePrice);
+      myNodeInfoCurso.appendChild(myNodeButton);
+      myNode.appendChild(myNodeInfoCurso);
       $items.appendChild(myNode);
     }
   }
@@ -59,6 +86,15 @@ window.onload = function () {
   }
 
   function renderCart() {
+    if (dataCart.length === 0) {
+      const elementCourses = document.querySelector(".cursos");
+      elementCourses.innerHTML = "";
+      let paragraph = document.createElement("p");
+      paragraph.classList.add("text-center");
+      paragraph.textContent = "No hay elementos en el carrito";
+      elementCourses.appendChild(paragraph);
+      return;
+    }
     // remove  html
     $cartElement.textContent = "";
     // remove duplicates
@@ -75,23 +111,26 @@ window.onload = function () {
       }, 0);
       // Create the node of the cart item
       let myNode = document.createElement("li");
-      myNode.classList.add("list-group-item", "text-right", "mx-2");
-      myNode.textContent = `${numberOfItemUnits} x ${myItem[0]["name"]} - ${myItem[0]["price"]}€`;
+      myNode.classList.add("list-group-item");
+      myNode.textContent = `${numberOfItemUnits} x ${myItem[0]["name"]} - $${myItem[0]["price"]}`;
       // button for delete
       let myButton = document.createElement("button");
-      myButton.classList.add("btn", "btn-danger", "mx-5");
+      myButton.classList.add("button-cart", "deleteItem");
       myButton.textContent = "X";
       myButton.style.marginLeft = "1rem";
       myButton.setAttribute("item", item);
-      myButton.addEventListener("click", borrarItemCarrito);
+      myButton.addEventListener("click", deleteItemCart);
       // Mezclamos nodos
       myNode.appendChild(myButton);
       $cartElement.appendChild(myNode);
     });
   }
 
-  function borrarItemCarrito() {
-    // Bbtain the product ID that is in the button pressed
+  function deleteItemCart() {
+    /*   // render items
+    dataCart = [];
+     */
+    // Obtain the product ID that is in the button pressed
     let id = this.getAttribute("item");
     // remove all products
     cart = cart.filter(function (cartId) {
@@ -103,6 +142,28 @@ window.onload = function () {
     calculateTotal();
     // Update LocalStorage
     saveCartInLocalStorage();
+
+    //renderItemsByid
+    renderIntemsWhenDeleteItemCart(id);
+  }
+  function renderIntemsWhenDeleteItemCart(id) {
+    //filter datCart Values
+    renderCartContentFilter = dataCart.filter(
+      (dataElement) => dataElement.id != id
+    );
+
+    //save new array filter
+    localStorage.setItem(
+      "product-value",
+      JSON.stringify(renderCartContentFilter)
+    );
+
+    //declare new dataCart Value
+    dataCart = JSON.parse(localStorage.getItem("product-value"));
+
+    //remove html content in #items
+    document.querySelector("#items").innerHTML = "";
+    renderItems();
   }
 
   function calculateTotal() {
@@ -114,7 +175,10 @@ window.onload = function () {
       let myItem = dataCart.filter(function (itemDataCart) {
         return itemDataCart["id"] == item;
       });
-      total = total + myItem[0]["price"] || 0;
+      let discount =
+        myItem[0]["price"] - (myItem[0]["price"] * myItem[0]["discount"]) / 100;
+      total = total + discount || 0;
+      console.log("descuento", discount);
     }
     // Format the total so that it only has two decimal places
     let twoDecimals = total.toFixed(2);
@@ -122,14 +186,17 @@ window.onload = function () {
     $total.textContent = twoDecimals;
   }
 
-  function vaciarCarrito() {
+  function removeCart() {
     // clean save products
+    dataCart = [];
     cart = [];
+    document.querySelector("#items").innerHTML = "";
     // render changes
     renderCart();
+    renderItems();
     calculateTotal();
     // delete localstorage
-    localStorage.removeItem('cart');
+    localStorage.clear();
   }
 
   function saveCartInLocalStorage() {
@@ -145,7 +212,7 @@ window.onload = function () {
   }
 
   // events
-  $emptyButton.addEventListener("click", vaciarCarrito);
+  $emptyButton.addEventListener("click", removeCart);
 
   // call functions
   loadLocalStorageCart();

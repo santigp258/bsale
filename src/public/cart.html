@@ -5,24 +5,131 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cart Bsale</title>
+    <link
+      rel="stylesheet"
+      href="https://necolas.github.io/normalize.css/8.0.0/normalize.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:400,900"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/app.css" />
+    <style>
+      .button-cart {
+        border: none;
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+        display: block;
+        text-align: center;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .delete {
+        margin: 0 auto;
+        width: 30%;
+        background-color: #741d51;
+      }
+
+      .plus-button {
+        background-color: #741d51;
+      }
+      .items {
+        display: flex;
+        flex: 1 0 25%;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+
+      .items {
+        flex: 1 0 50%;
+      }
+
+      aside {
+        flex: 1 0 50%;
+      }
+      aside h2 {
+        text-align: center;
+      }
+
+      .items .course {
+        margin: 0.3rem;
+      }
+      header {
+        background-color: gray;
+        width: 100%;
+      }
+
+      .cursos {
+        padding-top: 0.8rem;
+        justify-content: center;
+      }
+
+      .deleteItem {
+        background-color: red;
+        width: 2rem;
+      }
+      .list-group {
+        font-size: 1rem;
+        padding: 0;
+        padding-right: 0.5rem;
+      }
+
+      .list-group-item {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.3rem;
+      }
+
+      .list-group-item button {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <!-- elements generated from the JSON  data-->
-        <main id="items" class="col-sm-8 row"></main>
-        <!-- Cart -->
-        <aside class="col-sm-4">
-          <h2>Cart</h2>
-          <!-- cart Elements -->
-          <ul id="cart" class="list-group"></ul>
-          <hr />
-          <!-- total price -->
-          <p class="text-right">Total: <span id="total"></span>&euro;</p>
-          <button id="boton-delete" class="btn btn-danger">Vaciar</button>
-        </aside>
+    <header id="header" class="header">
+      <div class="logo">
+        <a href="/index.html">Bsale Test</a>
       </div>
+    </header>
+
+    <div class="cursos container">
+      <!-- elements generated from the JSON  data-->
+      <main id="items" class="items"></main>
+      <!-- Cart -->
+      <aside class="aside">
+        <h2>Carrito</h2>
+        <!-- cart Elements -->
+        <ul id="cart" class="list-group"></ul>
+        <hr />
+        <!-- total price -->
+        <p class="text-right">Total: &dollar;<span id="total"></span></p>
+        <button id="boton-delete" class="button-cart delete">Vaciar</button>
+      </aside>
     </div>
+
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="container-footer">
+          <nav id="principal" class="menu">
+            <a class="enlace" href="#">Mejores Productos</a>
+            <a class="enlace" href="#">Se Distribuidor</a>
+            <a class="enlace" href="#">Envio Inmediato</a>
+            <a class="enlace" href="#">Soporte</a>
+            <a class="enlace" href="#">Temas</a>
+          </nav>
+          <nav id="secundaria" class="menu">
+            <a class="enlace" href="#">¿Quienes Somos?</a>
+            <a class="enlace" href="#">Empleo</a>
+            <a class="enlace" href="#">Blog</a>
+          </nav>
+        </div>
+        <!--.container-footer-->
+      </div>
+      <!--.container-->
+    </footer>
     <script src="js/cart.js"></script>
   </body>
 </html>
