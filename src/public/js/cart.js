@@ -5,13 +5,11 @@ window.onload = function () {
   //obtain data contentcar
   let contentCartSelected = JSON.parse(localStorage.getItem("cart")) || [];
 
-  //prevent repeat information when page load
-  if (contentCartSelected.length === 0) {
-    dataCart.map((element) => {
-      //type of string element.id require for math with other data
-      contentCartSelected.unshift(String(element.id));
-    });
-  }
+
+  dataCart.map((element) => {
+    //type of string element.id require for math with other data
+    contentCartSelected.unshift(String(element.id));
+  });
 
   localStorage.setItem("cart", JSON.stringify(contentCartSelected));
   const $items = document.querySelector("#items");
@@ -112,7 +110,10 @@ window.onload = function () {
       // Create the node of the cart item
       let myNode = document.createElement("li");
       myNode.classList.add("list-group-item");
-      myNode.textContent = `${numberOfItemUnits} x ${myItem[0]["name"]} - $${myItem[0]["price"]}`;
+
+      //paragraph child node
+      let paragraphInfoContentItem = document.createElement("p");
+      paragraphInfoContentItem.textContent = `${numberOfItemUnits} x ${myItem[0]["name"]} - $${myItem[0]["price"]}`;
       // button for delete
       let myButton = document.createElement("button");
       myButton.classList.add("button-cart", "deleteItem");
@@ -120,7 +121,8 @@ window.onload = function () {
       myButton.style.marginLeft = "1rem";
       myButton.setAttribute("item", item);
       myButton.addEventListener("click", deleteItemCart);
-      // Mezclamos nodos
+      // mix nodos
+      myNode.appendChild(paragraphInfoContentItem);
       myNode.appendChild(myButton);
       $cartElement.appendChild(myNode);
     });
@@ -180,7 +182,7 @@ window.onload = function () {
       total = total + discount || 0;
     }
     // Format the total so that it only has two decimal places
-    let twoDecimals = total.toFixed(2);
+    let twoDecimals = total.toFixed(0);
     // render price in html
     $total.textContent = twoDecimals;
   }

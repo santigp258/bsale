@@ -187,6 +187,7 @@ header .logo a {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 1rem;
 }
 
 .cursos .curso {
@@ -197,6 +198,7 @@ header .logo a {
 
 .cursos .curso .imagen-curso {
   width: 100%;
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 480px) {
