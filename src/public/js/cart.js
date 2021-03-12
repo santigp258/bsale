@@ -27,7 +27,7 @@ window.onload = function () {
     for (let info of dataCart) {
       // structure
       let myNode = document.createElement("div");
-      myNode.classList.add("curso");
+      myNode.classList.add("curso", "animate__animated", "animate__fadeIn");
       // Image
       let myNodeImage = document.createElement("img");
       myNodeImage.classList.add("imagen-curso");
@@ -178,7 +178,6 @@ window.onload = function () {
       let discount =
         myItem[0]["price"] - (myItem[0]["price"] * myItem[0]["discount"]) / 100;
       total = total + discount || 0;
-      console.log("descuento", discount);
     }
     // Format the total so that it only has two decimal places
     let twoDecimals = total.toFixed(2);

@@ -76,7 +76,7 @@ const showElements = async (data) => {
     let content = "";
     pagination.map(({ url_image, name, price, discount, id }) => {
       content += `
-      <div class="curso">
+      <div class="animate__animated animate__fadeIn curso ">
       <img class="imagen-curso" src="${url_image || urlDefault}" />
       <div class="info-curso">
         <h4>${name}</h4>
@@ -170,10 +170,20 @@ const addProductCart = async (e) => {
   let data = await res.json();
   //items localstorage
   let cart = JSON.parse(localStorage.getItem("product-value")) || [];
-  if (cart.indexOf(data) > -1 && cart.length > 0) {
-    console.log(cart.length > 0);
-    return;
+
+  //no repeat same element in the array
+  const validate = cart.find((element) => element.id === data.id);
+  if (!validate) {
+    cart.unshift(data);
+    localStorage.setItem("product-value", JSON.stringify(cart));
+    //show alert
+    swal({
+      title: "Se ha agregado el producto al carrito",
+      text: "¡Revisa tus compras!",
+      icon: "success",
+      button: "¡Ok!",
+    });
+  } else {
+    swal("¡Hubo un error!", "Ya ha añadido este elemento a su carrito", "warning");
   }
-  cart.unshift(data);
-  localStorage.setItem("product-value", JSON.stringify(cart));
 };
