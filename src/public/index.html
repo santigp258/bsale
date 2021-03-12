@@ -53,12 +53,13 @@
       <div class="contenido-hero container">
         <h2>Aprende algo nuevo</h2>
         <p>Todos los cursos a $15</p>
-        <form action="#" id="busqueda" method="post" class="formulario">
+        <form onsubmit="searchElement(event)" id="search" method="post" class="formulario">
           <input
             class=""
             type="text"
             placeholder="¿Que te gustaría Aprender?"
-            id="buscador"
+            id="inputSearch"
+            onkeyup="searchElement()"
           />
           <input type="submit" id="submit-buscador" class="submit-buscador" />
         </form>
@@ -73,7 +74,11 @@
         </select>
       </div>
     </div>
-    <div class="cursos container" id="courses"></div>
+    <div class="cursos container" id="courses">
+    </div>
+    <div id="loading-spinner">
+      <div class="spin-icon"></div>
+    </div>
     <!--.cursos-->
 
     <footer id="footer" class="footer">

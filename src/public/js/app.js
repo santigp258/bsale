@@ -39,35 +39,40 @@ const showCategories = async () => {
 
 const showElements = async (data) => {
   const dataApi = await data;
-  let pagination = paginate(dataApi, pageSize, pageNumber);
-  const coursesDiv = document.querySelector("#courses"); //courses Div
-  let pageCont = Math.ceil(dataApi.length / pageSize); //round out
+  const spinn = document.querySelector("#loading-spinner");
+  if (dataApi.length > 0) {
+    //delete spinn
+    spinn.classList.add("none-element");
 
-  //show categories
-  let indexPagination = dataApi.indexOf(pagination[0]); //data index
-  const childCategories = document.querySelector(".length-data");
-  //create child
-  const divCategories = document.querySelector(".select_content");
-  let paragraph = document.createElement("p"); // paragraph element
-  paragraph.classList.add("length-data"); //add class
-  let contentParagraph = document.createTextNode(`
+    let pagination = paginate(dataApi, pageSize, pageNumber);
+    const coursesDiv = document.querySelector("#courses"); //courses Div
+    let pageCont = Math.ceil(dataApi.length / pageSize); //round out
+
+    //show categories
+    let indexPagination = dataApi.indexOf(pagination[0]); //data index
+    const childCategories = document.querySelector(".length-data");
+    //create child
+    const divCategories = document.querySelector(".select_content");
+    let paragraph = document.createElement("p"); // paragraph element
+    paragraph.classList.add("length-data"); //add class
+    let contentParagraph = document.createTextNode(`
     Mostrando ${indexPagination + 1}–${
-    indexPagination + pagination.length
-  } de ${dataApi.length} resultados
+      indexPagination + pagination.length
+    } de ${dataApi.length} resultados
   `); //content
-  paragraph.appendChild(contentParagraph); //append to parent
+    paragraph.appendChild(contentParagraph); //append to parent
 
-  childCategories && divCategories.removeChild(childCategories); //delete if true
+    childCategories && divCategories.removeChild(childCategories); //delete if true
 
-  divCategories.appendChild(paragraph); //add  paragraph element
-  /* prevent url_image undefined */
-  const urlDefault =
-    "https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png";
+    divCategories.appendChild(paragraph); //add  paragraph element
+    /* prevent url_image undefined */
+    const urlDefault =
+      "https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png";
 
-  //clean courses
-  let content = "";
-  pagination.map(({ url_image, name, price }) => {
-    content += `
+    //clean courses
+    let content = "";
+    pagination.map(({ url_image, name, price }) => {
+      content += `
       <div class="curso">
       <img class="imagen-curso" src="${url_image || urlDefault}" />
       <div class="info-curso">
@@ -79,29 +84,67 @@ const showElements = async (data) => {
       </div>
       </div>
           `;
-  });
-  //delete next o previous
-  content += '<div class="paginate">';
-  content +=
-    pageNumber > 1 ? " <button onclick='previousPage()'>Anterior</button>" : "";
-  content +=
-    pageNumber < pageCont
-      ? " <button onclick='nextPage()'>Siguiente</button>"
-      : "";
-  content += "</div>";
-  coursesDiv.innerHTML = content;
+    });
+    //delete next o previous
+    content += '<div class="paginate">';
+    content +=
+      pageNumber > 1
+        ? " <button onclick='previousPage()'>Anterior</button>"
+        : "";
+    content +=
+      pageNumber < pageCont
+        ? " <button onclick='nextPage()'>Siguiente</button>"
+        : "";
+    content += "</div>";
+    coursesDiv.innerHTML = content;
+  } else {
+    //show spin
+    spinn.classList.remove("none-element");
+
+    //elements when no results
+    document.querySelector("#courses").innerHTML = "";
+    document.querySelector(".length-data").innerHTML =
+      '<p class="text-center">No results</p>';
+  }
 };
 
-
 const change = async (e) => {
-    const optionSelected = e.target.value;
-    if (optionSelected.trim() !== "") {
-        const res = await fetch(`/api/category/${optionSelected}`);
-        const data = await res.json();
-        showElements(data);
-    }else{
-        showElements(dataApi); //call function if select default option
+  const optionSelected = e.target.value;
+  if (optionSelected.trim() !== "") {
+    const res = await fetch(`/api/category/${optionSelected}`);
+    const data = await res.json();
+    showElements(data);
+  } else {
+    showElements(dataApi); //call function if select default option
+  }
+};
+
+//search
+const searchElement = async (e) => {
+  //if onsubmit exists
+  if (e) {
+    e.preventDefault();
+  }
+
+  const inputValue = document.querySelector("#inputSearch").value.trim();
+  let optionSelected = document.querySelector("#select").value;
+  if (inputValue.length > 0 && optionSelected.length > 0) {
+    const res = await fetch(`api/search/${inputValue}`);
+    const data = await res.json();
+
+    //filter by category
+    const dataFilter = data.filter(
+      (products) => products.category == optionSelected
+    );
+    showElements(dataFilter);
+    //console.log(optionSelected.length);
+  } else if (optionSelected.length == 0) {
+    if (inputValue.trim().length > 0) {
+      const res = await fetch(`api/search/${inputValue}`);
+      const data = await res.json();
+      showElements(data);
     }
+  }
 };
 
 //call functions
