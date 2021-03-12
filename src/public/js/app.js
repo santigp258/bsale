@@ -10,7 +10,6 @@ let pageSize = 8; //elements por page
 let dataApi = getElements(); //API data
 
 const paginate = (array, page_size, page_number) => {
-  console.log((page_number - 1) * page_size, page_number * page_size);
   return array.slice((page_number - 1) * page_size, page_number * page_size); //data interval
 };
 
@@ -45,7 +44,6 @@ const showCategories = async () => {
 const showElements = async (data) => {
   const dataApi = await data;
   const spinn = document.querySelector("#loading-spinner");
-  console.log(dataApi);
   if (dataApi.length > 0) {
     //delete spinn
     spinn.classList.add("none-element");
@@ -76,7 +74,7 @@ const showElements = async (data) => {
 
     //clean courses
     let content = "";
-    pagination.map(({ url_image, name, price, discount }) => {
+    pagination.map(({ url_image, name, price, discount, id }) => {
       content += `
       <div class="curso">
       <img class="imagen-curso" src="${url_image || urlDefault}" />
@@ -86,7 +84,7 @@ const showElements = async (data) => {
         <p class="regular">$${price}</p>
           <p class="oferta">$${price - (discount * price) / 100}</p>
         </div>
-        <a href="#" class="boton" data-id="1">Agregar Al Carrito</a>
+        <button  type="button" onclick="addProductCart(event)" class="boton" value="${id}">Agregar Al Carrito</button>
       </div>
       </div>
           `;
@@ -107,8 +105,8 @@ const showElements = async (data) => {
     //show spin
     spinn.classList.remove("none-element");
 
+    //when no results
     document.querySelector("#courses").innerHTML = "";
-    //elements when no results
     document.querySelector(".length-data").innerHTML =
       '<p class="text-center">No results</p>';
   }
@@ -148,6 +146,7 @@ const searchElement = async (e) => {
     showElements(dataFilter);
     resetPaginate();
   } else if (optionSelected.length == 0) {
+    //if obtionDefaul exist, search all
     if (inputValue.trim().length > 0) {
       const res = await fetch(`api/search/${inputValue}`);
       const data = await res.json();
@@ -157,6 +156,24 @@ const searchElement = async (e) => {
   }
 };
 
+const redirect = () => {
+  window.location.href = "/cart.html";
+};
+
 //call functions
 showElements(dataApi);
 showCategories();
+/* CART */
+const addProductCart = async (e) => {
+  const id = e.target.value;
+  const res = await fetch(`api/product/${id}`);
+  let data = await res.json();
+  //items localstorage
+  let cart = JSON.parse(localStorage.getItem("product-value")) || [];
+  if (cart.indexOf(data) > -1 && cart.length > 0) {
+    console.log(cart.length > 0);
+    return;
+  }
+  cart.unshift(data);
+  localStorage.setItem("product-value", JSON.stringify(cart));
+};

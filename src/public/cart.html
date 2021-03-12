@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart Bsale</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- elements generated from the JSON  data-->
+        <main id="items" class="col-sm-8 row"></main>
+        <!-- Cart -->
+        <aside class="col-sm-4">
+          <h2>Cart</h2>
+          <!-- cart Elements -->
+          <ul id="cart" class="list-group"></ul>
+          <hr />
+          <!-- total price -->
+          <p class="text-right">Total: <span id="total"></span>&euro;</p>
+          <button id="boton-delete" class="btn btn-danger">Vaciar</button>
+        </aside>
+      </div>
+    </div>
+    <script src="js/cart.js"></script>
+  </body>
+</html>

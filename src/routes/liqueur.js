@@ -15,6 +15,24 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/product/:id", (req, res) => {
+  const { id } = req.params;
+
+  mysqlConn.query(
+    `SELECT * FROM product WHERE id = ?`,
+    [id],
+    (err, rows, fields) => {
+      //return object
+      if(!err){
+        res.json(rows[0])
+      }else{
+        console.log(err);
+        res.json({ status: false })
+      }
+    }
+  );
+});
+
 router.get("/category/:id", (req, res) => {
   const { id } = req.params;
 

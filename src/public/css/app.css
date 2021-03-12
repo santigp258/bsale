@@ -244,12 +244,14 @@ header .logo a {
 
 .info-curso .boton {
   background-color: #741d51;
+  border: none;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   display: block;
   text-align: center;
   color: #fff;
   text-decoration: none;
+  width: 100%;
 }
 
 .footer {
