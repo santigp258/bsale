@@ -10,6 +10,7 @@ let pageSize = 8; //elements por page
 let dataApi = getElements(); //API data
 
 const paginate = (array, page_size, page_number) => {
+  console.log((page_number - 1) * page_size, page_number * page_size);
   return array.slice((page_number - 1) * page_size, page_number * page_size); //data interval
 };
 
@@ -20,6 +21,10 @@ const nextPage = () => {
 const previousPage = () => {
   pageNumber--;
   showElements(dataApi);
+};
+
+const resetPaginate = () => {
+  pageNumber = 1;
 };
 
 const showCategories = async () => {
@@ -40,6 +45,7 @@ const showCategories = async () => {
 const showElements = async (data) => {
   const dataApi = await data;
   const spinn = document.querySelector("#loading-spinner");
+  console.log(dataApi);
   if (dataApi.length > 0) {
     //delete spinn
     spinn.classList.add("none-element");
@@ -61,7 +67,6 @@ const showElements = async (data) => {
     } de ${dataApi.length} resultados
   `); //content
     paragraph.appendChild(contentParagraph); //append to parent
-
     childCategories && divCategories.removeChild(childCategories); //delete if true
 
     divCategories.appendChild(paragraph); //add  paragraph element
@@ -79,7 +84,7 @@ const showElements = async (data) => {
         <h4>${name}</h4>
         <div class="precio">
         <p class="regular">$${price}</p>
-          <p class="oferta">$${(discount * price) / 100}</p>
+          <p class="oferta">$${price - (discount * price) / 100}</p>
         </div>
         <a href="#" class="boton" data-id="1">Agregar Al Carrito</a>
       </div>
@@ -102,8 +107,8 @@ const showElements = async (data) => {
     //show spin
     spinn.classList.remove("none-element");
 
-    //elements when no results
     document.querySelector("#courses").innerHTML = "";
+    //elements when no results
     document.querySelector(".length-data").innerHTML =
       '<p class="text-center">No results</p>';
   }
@@ -116,8 +121,10 @@ const change = async (e) => {
     const res = await fetch(`/api/category/${optionSelected}`);
     const data = await res.json();
     showElements(data);
+    resetPaginate();
   } else {
     showElements(dataApi); //call function if select default option
+    resetPaginate();
   }
 };
 
@@ -139,11 +146,13 @@ const searchElement = async (e) => {
       (products) => products.category == optionSelected
     );
     showElements(dataFilter);
+    resetPaginate();
   } else if (optionSelected.length == 0) {
     if (inputValue.trim().length > 0) {
       const res = await fetch(`api/search/${inputValue}`);
       const data = await res.json();
       showElements(data);
+      resetPaginate();
     }
   }
 };
