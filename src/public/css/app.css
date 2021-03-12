@@ -36,6 +36,11 @@ header .logo {
   padding: 1.4rem 0;
 }
 
+header .logo a {
+  text-decoration: none;
+  color: #000000;
+}
+
 .carrito-compras {
   position: relative;
 }
@@ -67,14 +72,17 @@ header .logo {
   background-image: url("../img/hero.jpg");
   background-repeat: no-repeat;
   background-position: center center;
-  min-height: 24rem;
+  min-height: 28rem;
   background-size: cover;
   color: #fff;
+  font-weight: bold;
   display: flex;
   align-items: center;
 }
 
 .hero .contenido-hero {
+  padding: 0.5rem;
+  margin-top: 3rem;
   flex: 1;
 }
 
@@ -309,11 +317,11 @@ header .logo {
 }
 
 /* SPIN */
-.text-center{
+.text-center {
   text-align: center;
 }
 .none-element {
-  display: none!important;
+  display: none !important;
 }
 #loading-spinner {
   display: inline;
@@ -392,4 +400,22 @@ header .logo {
     transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+/* pagination */
+.paginate{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.btn-page {
+  border: none;
+  background-color: #af8705;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  display: block;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
 }

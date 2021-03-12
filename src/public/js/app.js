@@ -71,14 +71,15 @@ const showElements = async (data) => {
 
     //clean courses
     let content = "";
-    pagination.map(({ url_image, name, price }) => {
+    pagination.map(({ url_image, name, price, discount }) => {
       content += `
       <div class="curso">
       <img class="imagen-curso" src="${url_image || urlDefault}" />
       <div class="info-curso">
         <h4>${name}</h4>
         <div class="precio">
-          <p class="oferta">$${price}</p>
+        <p class="regular">$${price}</p>
+          <p class="oferta">$${(discount * price) / 100}</p>
         </div>
         <a href="#" class="boton" data-id="1">Agregar Al Carrito</a>
       </div>
@@ -89,11 +90,11 @@ const showElements = async (data) => {
     content += '<div class="paginate">';
     content +=
       pageNumber > 1
-        ? " <button onclick='previousPage()'>Anterior</button>"
+        ? " <button class='btn-page' onclick='previousPage()'>Anterior</button>"
         : "";
     content +=
       pageNumber < pageCont
-        ? " <button onclick='nextPage()'>Siguiente</button>"
+        ? " <button class='btn-page' onclick='nextPage()'>Siguiente</button>"
         : "";
     content += "</div>";
     coursesDiv.innerHTML = content;
@@ -108,6 +109,7 @@ const showElements = async (data) => {
   }
 };
 
+//select in onchange event
 const change = async (e) => {
   const optionSelected = e.target.value;
   if (optionSelected.trim() !== "") {
@@ -137,7 +139,6 @@ const searchElement = async (e) => {
       (products) => products.category == optionSelected
     );
     showElements(dataFilter);
-    //console.log(optionSelected.length);
   } else if (optionSelected.length == 0) {
     if (inputValue.trim().length > 0) {
       const res = await fetch(`api/search/${inputValue}`);
