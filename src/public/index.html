@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css?family=Raleway:400,900"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="css/app.css" />
   </head>
 
   <body>
@@ -65,12 +65,16 @@
       </div>
     </div>
     <!--#hero-->
-    <h1 class="encabezado centrado">Cursos En Línea</h1>
-
-    <div class="cursos container" id="courses">
+    <h1 class="encabezado centrado">Online store</h1>
+    <div class="select_content container">
+      <div class="select-parent">
+        <select id="select" onchange="change(event)">
+          <option value="">default order</option>
+        </select>
+      </div>
     </div>
+    <div class="cursos container" id="courses"></div>
     <!--.cursos-->
-
 
     <footer id="footer" class="footer">
       <div class="container">

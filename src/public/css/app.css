@@ -279,3 +279,36 @@ header .logo {
   text-decoration: none;
   margin-bottom: 0.5rem;
 }
+
+/* showing */
+.select_content {
+  margin-bottom: 0.3rem;
+  padding: .5rem;
+  display: flex;
+}
+
+.select-parent{
+  display: flex;
+  justify-content: flex-end;
+  order: 2;
+}
+
+#select {
+  border: 0;
+  height: 50px;
+  background-color: rgb(216, 216, 216);
+  padding: .5rem;
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .select_content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #select {
+    padding: .2rem;
+    height: 30px;
+  }
+}
