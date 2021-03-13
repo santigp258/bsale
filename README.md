@@ -44,7 +44,7 @@ _Teniendo en cuenta las condiciones de **Bsale** en el ejercicio, estas son las 
 * [SweetAlert2](https://sweetalert2.github.io/) - Librería de JavaScript para generar alertas
 ## Documentación 
 
-Para leer un poco más de este ejercicio, visita la [Wiki](https://github.com/santigp258/bsale/wiki/)
+Para leer un poco más de este ejercicio, visita la [Wiki](https://github.com/santigp258/bsale/wiki/Frontend)
 
 ## Autor
 
