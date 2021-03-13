@@ -22,13 +22,15 @@ _En la raíz del proyecto, debes ejecutar el siguiente comando:_
 _En caso de no necesitar las dependecias de desarrollo:_
 
 ```
-npm install npm start
+$ npm install
+$ npm start
 ```
 
 _Si se instalarán las dependecias de desarrollo:_
 
 ```
-npm install --save-dev  npm run dev
+$ npm install --save-dev
+$ npm run dev
 ```
 
 ## Construido con 
