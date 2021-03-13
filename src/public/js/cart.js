@@ -7,7 +7,7 @@ window.onload = function () {
 
 
   dataCart.map((element) => {
-    //type of string element.id require for math with other data
+    // type of string element.id require for match with the other data
     contentCartSelected.unshift(String(element.id));
   });
 
@@ -129,9 +129,6 @@ window.onload = function () {
   }
 
   function deleteItemCart() {
-    /*   // render items
-    dataCart = [];
-     */
     // Obtain the product ID that is in the button pressed
     let id = this.getAttribute("item");
     // remove all products
