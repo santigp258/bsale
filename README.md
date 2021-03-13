@@ -22,13 +22,13 @@ _En la raíz del proyecto, debes ejecutar el siguiente comando:_
 _En caso de no necesitar las dependecias de desarrollo:_
 
 ```
-npm install
+npm install npm start
 ```
 
 _Si se instalarán las dependecias de desarrollo:_
 
 ```
-npm install --save-dev
+npm install --save-dev  npm run dev
 ```
 
 ## Construido con 
@@ -44,7 +44,7 @@ _Teniendo en cuenta las condiciones de **Bsale** en el ejercicio, estas son las 
 
 Para leer un poco más de este ejercicio, visita la [Wiki](https://github.com/santigp258/bsale/wiki/)
 
-## Autores 
+## Autor
 
-* **Santiago Guerrero** - *Unico Autor* - [santigp258](https://github.com/santigp258)
+* **Santiago Guerrero** - [santigp258](https://github.com/santigp258)
 
